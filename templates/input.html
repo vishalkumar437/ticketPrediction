@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block code_block %}
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <style>
+            h1 {
+                color: #39304f;
+            }
+    
+            body {
+                background: url('/static/background.jpg') no-repeat fixed;
+                background-size: cover;
+                overflow-y: hidden; /* Prevent vertical scrolling */
+            }
+    
+            .form-container {
+                padding: 0px;
+                max-width: 500px;
+                margin: 0 auto;
+                margin-top: 50px;
+                overflow-y: scroll; /* Enable scrolling within the form */
+                max-height: 80vh; /* Set maximum height for the form */
+            }
+        </style>
+    </head>
+    <body style="background: url('/static/background.jpg'); background-repeat: no-repeat">
+
+        <div class="form-container">
+            <h3 style="text-align: center; color: orange;">Enter Ticket Details</h3>
+            <form action="/input" method="POST">
+
+                <div class="form-group">
+                    <label for="">Algorithm</label>
+                    <select name ="Algorithm" class="form-control">
+                        <option value="0">GradientBoost</option>
+                        <option value="1">Ada Boost</option>
+                        <option value="2">Decision Tree</option>
+                        <option value="3">XGBoost</option>
+                        <option value="4">Random Forest</option>
+                        <option value="5">SVM</option>
+                        <option value="6">Naive Bayes</option>
+                    </select>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                    <label for="">Coach class</label>
+                    <select name = "Coach class" class="form-control">
+                        <option value="0">SL</option>
+                        <option value="1">1A</option>
+                        <option value="2">2A</option>
+                        <option value="3">3A</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="">Total seats in Train</label>
+                    <input type="number" class="form-control" name="Total Seats">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Type Of waiting List</label>
+                    <select name = "Type" class="form-control">
+                        <option value="0">GNWL</option>
+                        <option value="1">RLWL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Booking status On the day Of Booking</label>
+                    <input type="number" class="form-control" name="Booking status">
+                </div>
+               
+                <div class="form-group">
+                    <label for="">Maximum waiting List</label>
+                    <input type="number" class="form-control" name="Maximum wait list">
+                </div>
+                <label for="fest">Festivals</label>
+                    <div>
+
+                        <input type="radio" id= "fest" name="fest" value="0">
+                        <label for="fest">Yes</label><br>
+                        <input type="radio" id= "fest" name="fest" value="1">
+                        <label for="fest">No</label><br>
+                    </div>
+
+                    <label for="Holidays">Holidays</label>
+                    <div>
+
+                        <input type="radio" id= "Holidays" name="Holidays" value="0">
+                        <label for="fest">Yes</label><br>
+                        <input type="radio" id= "Holidays" name="Holidays" value="1">
+                        <label for="Holidays">No</label><br>
+                    </div>
+                    
+
+                <div class="form-group">
+                    <label for="">Status after 1 Week</label>
+                    <input type="number" class="form-control" name="Status after 1 Week">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Status after 2 Week</label>
+                    <input type="number" class="form-control" name="Status after 2 Week">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="">Status after 3 week</label>
+                    <input type="number" class="form-control" name="Status after 3 Week">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Status before 3 days of journey</label>
+                    <input type="number" class="form-control" name="Status before 2 days">
+                </div>
+                <div class="form-group">
+                    <label for="">Status before 1 day of journey</label>
+                    <input type="number" class="form-control" name="Status before 1 day">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Predict">
+                    <input type="reset" class="btn btn-danger" value="Clear">
+                </div>
+
+
+            </form>
+        </div>
+    </body>
+    </html>
+{% endblock %}

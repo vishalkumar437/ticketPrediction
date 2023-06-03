@@ -7,11 +7,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 data = pd.read_csv("data.csv")
-y=data.iloc[:,17:18]
-print(y.head())
 
-x= data.iloc[:,5:17]
-print(x.head())
 
 
 
@@ -89,9 +85,30 @@ def build_svc_model(x_train, y_train):
 
 from tabulate import tabulate
 
+def predict_probability(classifier, new_data):
+    if hasattr(classifier, "decision_function"):
+        decision_values = classifier.decision_function(new_data)  # Get the decision values
+        probabilities = 1 / (1 + np.exp(-decision_values))  # Convert decision values to probabilities using sigmoid function
+    elif hasattr(classifier, "predict_proba"):
+        probabilities = classifier.predict_proba(new_data)  # Get the class probabilities
+        probabilities = probabilities[:, 1]  # Use the probabilities of the positive class
+    else:
+        raise AttributeError("Classifier does not have decision_function() or predict_proba() method")
+
+    return probabilities
+
+
 def cross_validation(algorithm, classifier, x_test, y_test):
     # evaluate the model
     predictions = classifier.predict(x_test)
+    if hasattr(classifier, "decision_function"):
+        decision_values = classifier.decision_function(x_test)  # Get the decision values
+    elif hasattr(classifier, "predict_proba"):
+        probabilities = classifier.predict_proba(x_test)  # Get the class probabilities
+        decision_values = probabilities[:, 1]  # Use the probabilities of the positive class
+    else:
+        raise AttributeError("Classifier does not have decision_function() or predict_proba() method")
+    
 
     from sklearn.metrics import confusion_matrix, classification_report
     from sklearn.metrics import recall_score, precision_score, f1_score
@@ -116,56 +133,72 @@ def cross_validation(algorithm, classifier, x_test, y_test):
     print("\nConfusion Matrix:")
     print(tabulate(cm, headers=["Predicted Negative", "Predicted Positive"], showindex=["Actual Negative", "Actual Positive"], tablefmt="fancy_grid"))
 
-    return accuracy, recall, precision, f1, error_rate
-
-
-
-
-from sklearn.utils import column_or_1d  # Import column_or_1d function
-y = column_or_1d(y, warn=False)
-
-x_train, x_test, y_train, y_test = clean_and_split_data(x, y)
-
-
-classifier_nb = build_naive_bayes_model(x_train, y_train)
-classifier_svc = build_svc_model(x_train, y_train)
-classifier_gb = build_gradientboost_model(x_train, y_train)
-classifier_rf = build_randomforest_model(x_train, y_train)
-classifier_dt = build_decisiontree_model(x_train, y_train)
-classifier_ada = build_adaboost_model(x_train, y_train)
-classifier_xg = build_xgboost_model(x_train,y_train)
-
-accuracy_nb = cross_validation('Naive Bayes', classifier_nb, x_test, y_test)
-accuracy_svc = cross_validation('SVM', classifier_svc, x_test, y_test)
-accuracy_ada = cross_validation('Ada Boost', classifier_ada, x_test, y_test)
-accuracy_dt = cross_validation('Decision Tree', classifier_dt, x_test, y_test)
-accuracy_rf = cross_validation('Random forest', classifier_rf, x_test, y_test)
-accuracy_gb = cross_validation('Gradient Boost', classifier_gb, x_test, y_test)
-accuracy_xg = cross_validation('XGBoost',classifier_xg,x_test,y_test)
+    return accuracy, recall, precision, f1, error_rate, decision_values
 
 
 
 
 
 
-new_data = [[2, 182, 1, 15, 15, 0, 1, 14, 13, 10, 8, 4]]
-prediction = classifier_gb.predict(new_data)
-
-if(prediction[0]==1):
-    print("Prediction:", "Ticket will get Confirmed")
-
-else:
-    print("Prediction:", "Ticket will not get Confirmed")
 
 
-new_data =[[3,880,2,39,79,1,0,35,27,18,12,4]]
+def probability_generate(algorithm,x_validate):
+    # print(x_validate)
+    # print(len(x_validate[0]))
+    # print(algo)
+
+    y=data.iloc[:,17:18]
+    
+    x= data.iloc[:,5:5+len(x_validate[0])]
+
+    print(x.head())
 
 
-prediction = classifier_svc.predict(new_data)
+    from sklearn.utils import column_or_1d  # Import column_or_1d function
+    y = column_or_1d(y, warn=False)
 
-if(prediction[0]==1):
-    print("Prediction:", "Ticket will get Confirmed")
+    x_train, x_test, y_train, y_test = clean_and_split_data(x, y)
+    
+    if algorithm == 0:
+        classifier_gb = build_gradientboost_model(x_train, y_train)
+        accuracy_gb = cross_validation('Gradient Boost', classifier_gb, x_test, y_test)
+        probability_gb = predict_probability(classifier_gb, x_validate)
+        return probability_gb,accuracy_gb[0]
 
-else:
-    print("Prediction:", "Ticket will not get Confirmed")
+    elif algorithm == 1:
+        classifier_ada = build_adaboost_model(x_train, y_train)
+        accuracy_ada = cross_validation('Ada Boost', classifier_ada, x_test, y_test)
+        probability_ada=predict_probability(classifier_ada,x_validate)
+        return probability_ada,accuracy_ada[0]
+    
+    elif algorithm == 2:
+        classifier_dt = build_decisiontree_model(x_train, y_train)
+        accuracy_dt = cross_validation('Decision Tree', classifier_dt, x_test, y_test)
+        probability_dt=predict_probability(classifier_dt,x_validate)
+        return probability_dt,accuracy_dt[0]
+    
+    elif algorithm == 3:
+        classifier_xg = build_xgboost_model(x_train, y_train)
+        accuracy_xg = cross_validation('XGBoost', classifier_xg, x_test, y_test)
+        probability_xg=predict_probability(classifier_xg,x_validate)
+        return probability_xg,accuracy_xg[0]
+    
+    elif algorithm == 4:
+        classifier_rf = build_randomforest_model(x_train, y_train)
+        accuracy_rf = cross_validation('Random Forest', classifier_rf, x_test, y_test) 
+        probability_ra = predict_probability(classifier_rf, x_validate)
+        return probability_ra,accuracy_rf[0]
 
+    elif algorithm == 5:
+        classifier_svc = build_svc_model(x_train, y_train)
+        accuracy_svc = cross_validation('SVM', classifier_svc, x_test, y_test)
+        probability_svc = predict_probability(classifier_svc,x_validate)
+        return probability_svc,accuracy_svc[0]
+
+    elif algorithm == 6:
+        classifier_nb = build_naive_bayes_model(x_train, y_train)
+        accuracy_nb = cross_validation('Naive Bayes', classifier_nb, x_test, y_test)
+        probability_nb= predict_probability(classifier_nb,x_validate)
+        return probability_nb,accuracy_nb[0]
+
+    

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+    {% block code_block %}
+        <body style="background: url('/static/background.jpg'); background-repeat: no-repeat;
+        background-size: auto; ">
+            <h1 style="color:RGB(155, 35, 53);">Result</h1>
+
+            <h1><div><strong>Algorithm: </strong> {{algorithm}}</div></h1>
+            <h1><div><strong>Confirm Percentage: </strong> {{label * 100}}%</div></h1>
+            <h1><div><strong>Accuracy: </strong> {{accuracy * 100}}%</div></h1>
+
+            {% if label > 0.7 %}
+                <h2>The ticket will get confirmed</h2>
+            {% else %}
+                <h2>The ticket will not get confirmed</h2>
+            {% endif %}
+        </body>
+    {% endblock %}
