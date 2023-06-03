@@ -48,8 +48,6 @@ def input():
         if(request.form['Status before 1 day']):
             sb1d=int(request.form['Status before 1 day'])
             d.append(sb1d)
-        print(d)
-
 
         
 
@@ -66,13 +64,11 @@ def input():
             algorithm_name = 'Decision Tree'
         elif algorithm == 3:
             prob,accuracy = ml.probability_generate(algorithm,[d])
-            algorithm_name = 'XGBoost'
+            algorithm_name = 'Random Forest'
         elif algorithm == 4:
             prob,accuracy = ml.probability_generate(algorithm,[d])
-            algorithm_name = 'Random Forest'
+            algorithm_name = 'SVM'
         elif algorithm == 5:
-            prob,accuracy = ml.probability_generate(algorithm,[d])
-        elif algorithm == 6:
             prob,accuracy = ml.probability_generate(algorithm,[d])
             algorithm_name = 'Naive Bayes'
 

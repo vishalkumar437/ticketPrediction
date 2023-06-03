@@ -1,4 +1,4 @@
-Train Number,Boarding Station,Destination,Date of Journey,Booking Date,Class,Total Seats in Class,Type of Waiting List,Booking Status,Maximum Waiting,festival,Holidays,status after one weeks,status after two weeks,status after three week,status before three days,status before one day,confirm
+Train Number,Boarding Station,Destination,Date of Journey,Booking Date,Class,Total Seats in Class,Type of Waiting List,Booking Status,Maximum Waiting,festival,Holidays,status after one weeks,status after two weeks,status after three week,status before 3 days,status before one day,confirm
 14554,AADR,DLI,10-09-2017,09-09-2017,2A,182,GNWL,15,15,0,1,14,13,10,8,4,0
 14554,AADR,DLI,04-10-2017,08-10-2017,3A,216,GNWL,5,21,1,0,2,0,0,0,0,1
 14554,AADR,DLI,19-10-2017,24-09-2017,2A,182,GNWL,27,33,0,1,25,22,21,19,15,0

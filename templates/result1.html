@@ -9,7 +9,7 @@
             <h1><div><strong>Confirm Percentage: </strong> {{label * 100}}%</div></h1>
             <h1><div><strong>Accuracy: </strong> {{accuracy * 100}}%</div></h1>
 
-            {% if label > 0.7 %}
+            {% if label > 0.5 %}
                 <h2>The ticket will get confirmed</h2>
             {% else %}
                 <h2>The ticket will not get confirmed</h2>
