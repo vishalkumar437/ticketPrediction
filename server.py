@@ -72,13 +72,7 @@ def input():
             prob,accuracy = ml.probability_generate(algorithm,[d])
             algorithm_name = 'Naive Bayes'
 
-        # print(f"purchased: {purchased[0]}")
-        # if label == 0:
-        #     label = "confirm"
-        # else:
-        #     label  = "not confirm"
 
-        print(accuracy)
         return render_template("result1.html", label=prob, accuracy=accuracy, algorithm=algorithm_name)
 
 
