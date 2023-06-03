@@ -78,4 +78,4 @@ def input():
 
 
 
-app.run(port=4000, host='0.0.0.0', debug=True)
+app.run(host='0.0.0.0', debug=False)
